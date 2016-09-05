@@ -32,7 +32,7 @@ action :install do
   verify_checksum(checksum)
 
   tentacle_installer = ::File.join(Chef::Config[:file_cache_path], 'octopus-tentacle.msi')
-  install_url = installer_url(new_resource.version)
+  install_url = installer_url(new_resource.source_url, new_resource.version)
 
   download = remote_file tentacle_installer do
     action :create
@@ -40,7 +40,7 @@ action :install do
     checksum checksum if checksum
   end
 
-  install = windows_package display_name do
+  install = package display_name do
     action :install
     source tentacle_installer
     version version if version && upgrades_enabled
@@ -213,7 +213,7 @@ action :uninstall do
     config_path config_path
   end
 
-  uninstall_package = windows_package display_name do
+  uninstall_package = package display_name do
     action :remove
     source 'nothing'
   end

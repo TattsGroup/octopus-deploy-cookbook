@@ -32,7 +32,7 @@ action :install do
   verify_checksum(checksum)
 
   server_installer = ::File.join(Chef::Config[:file_cache_path], 'octopus-server.msi')
-  install_url = installer_url(new_resource.version)
+  install_url = installer_url(new_resource.source_url, new_resource.version)
 
   download = remote_file server_installer do
     action :create
@@ -40,7 +40,7 @@ action :install do
     checksum checksum if checksum
   end
 
-  install = windows_package display_name do
+  install = package display_name do
     action :install
     source server_installer
     version version
@@ -57,12 +57,16 @@ action :configure do
   instance = new_resource.instance
   checksum = new_resource.checksum
   version = new_resource.version
+  source_url = new_resource.source_url
   home_path = new_resource.home_path
   config_path = new_resource.config_path
   connection_string = new_resource.connection_string
   master_key = new_resource.master_key
   node_name = new_resource.node_name
   admin_user = new_resource.admin_user
+  service_user = new_resource.service_user
+  service_password = new_resource.service_password
+  authentication_mode = new_resource.authentication_mode
   license = new_resource.license
   create_database = new_resource.create_database
   start_service = new_resource.start_service
@@ -70,6 +74,7 @@ action :configure do
   install = octopus_deploy_server name do
     action :install
     checksum checksum
+    source_url source_url
     version version
   end
 
@@ -93,7 +98,7 @@ action :configure do
     #{catch_powershell_error('Configuring Database Connection')}
     .\\Octopus.Server.exe configure --instance "#{instance}" --upgradeCheck "True" --upgradeCheckWithStatistics "True" --console
     #{catch_powershell_error('Configuring Upgrade Checks')}
-    .\\Octopus.Server.exe configure --instance "#{instance}" --webAuthenticationMode "Domain" --console
+    .\\Octopus.Server.exe configure --instance "#{instance}" --webAuthenticationMode "#{authentication_mode}" --console
     #{catch_powershell_error('Configuring authentication')}
     .\\Octopus.Server.exe configure --instance "#{instance}" --serverNodeName "#{node_name}" --console
     #{catch_powershell_error('Configuring Cluster Node Name')}
@@ -120,6 +125,8 @@ action :configure do
     else
       action [:stop, :disable]
     end
+    run_as_user service_user if service_user
+    run_as_password service_password if service_password
   end
 
   new_resource.updated_by_last_action(actions_updated?([install, create_instance, configure, service]))
@@ -135,7 +142,7 @@ action :remove do
     action :delete
   end
 
-  remove = windows_package display_name do
+  remove = package display_name do
     action :remove
     source 'nothing'
     version version if version

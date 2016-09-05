@@ -39,8 +39,8 @@ module OctopusDeploy
       'C:\Program Files\Octopus Deploy\Tentacle'
     end
 
-    def installer_url(version)
-      "https://download.octopusdeploy.com/octopus/Octopus.Tentacle.#{version}-x64.msi"
+    def installer_url(source_url, version)
+      "#{source_url}/Octopus.Tentacle.#{version}-x64.msi"
     end
 
     def tentacle_exists?(server, api_key, thumbprint)
