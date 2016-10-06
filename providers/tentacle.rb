@@ -150,6 +150,7 @@ action :register do
   environment = new_resource.environment
   config_path = new_resource.config_path
   service_name = service_name(instance)
+  display_name = new_resource.display_name
 
   verify_server(server)
   verify_api_key(api_key)
@@ -160,7 +161,7 @@ action :register do
     action :run
     cwd tentacle_install_location
     code <<-EOH
-      .\\Tentacle.exe register-with --instance "#{instance}" --server "#{server}" --name "#{node.name}" --apiKey "#{api_key}" #{register_comm_config(polling, port)} --environment "#{environment}" #{option_list('role', roles)} --console
+      .\\Tentacle.exe register-with --instance "#{instance}" --server "#{server}" --name "#{display_name}" --apiKey "#{api_key}" #{register_comm_config(polling, port)} --environment "#{environment}" #{option_list('role', roles)} --console
       #{catch_powershell_error('Registering Tentacle')}
     EOH
     # This is sort of a hack, you need to specify the config_path on register if it is not default
