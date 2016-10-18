@@ -39,4 +39,3 @@ attribute :api_key, kind_of: String
 attribute :roles, kind_of: Array
 attribute :environment, kind_of: String, default: node.chef_environment
 attribute :display_name, kind_of: String, default: node.name
-
