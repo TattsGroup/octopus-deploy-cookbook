@@ -67,6 +67,7 @@ action :configure do
   configure_firewall = new_resource.configure_firewall
   service_name = service_name(instance)
   cert_file =  new_resource.cert_file
+  source_url = new_resource.source_url
 
   firewall = windows_firewall_rule 'Octopus Deploy Tentacle' do
     action :create
@@ -83,6 +84,7 @@ action :configure do
     checksum checksum
     version version
     upgrades_enabled upgrades_enabled
+    source_url source_url
   end
 
   create_home_dir = directory home_path do
