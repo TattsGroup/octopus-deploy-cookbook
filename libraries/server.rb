@@ -33,8 +33,8 @@ module OctopusDeploy
       'C:\Program Files\Octopus Deploy\Octopus'
     end
 
-    def installer_url(version)
-      "https://download.octopusdeploy.com/octopus/Octopus.#{version}-x64.msi"
+    def installer_url(source_url, version)
+      "#{source_url}/Octopus.#{version}-x64.msi"
     end
   end
 end

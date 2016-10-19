@@ -24,6 +24,7 @@ default_action :install
 attribute :instance, kind_of: String, default: 'Tentacle'
 attribute :version, kind_of: String
 attribute :checksum, kind_of: String
+attribute :source_url, kind_of: String, default: 'https://download.octopusdeploy.com/octopus'
 attribute :home_path, kind_of: String, default: 'C:\Octopus'
 attribute :config_path, kind_of: String, default: 'C:\Octopus\Tentacle.config'
 attribute :app_path, kind_of: String, default: 'C:\Octopus\Applications'
@@ -37,3 +38,4 @@ attribute :server, kind_of: String
 attribute :api_key, kind_of: String
 attribute :roles, kind_of: Array
 attribute :environment, kind_of: String, default: node.chef_environment
+attribute :display_name, kind_of: String, default: node.name

@@ -32,7 +32,7 @@ action :install do
   verify_checksum(checksum)
 
   tentacle_installer = ::File.join(Chef::Config[:file_cache_path], 'octopus-tentacle.msi')
-  install_url = installer_url(new_resource.version)
+  install_url = installer_url(new_resource.source_url, new_resource.version)
 
   download = remote_file tentacle_installer do
     action :create
@@ -40,7 +40,7 @@ action :install do
     checksum checksum if checksum
   end
 
-  install = windows_package display_name do
+  install = package display_name do
     action :install
     source tentacle_installer
     version version if version && upgrades_enabled
@@ -67,6 +67,7 @@ action :configure do
   configure_firewall = new_resource.configure_firewall
   service_name = service_name(instance)
   cert_file =  new_resource.cert_file
+  source_url = new_resource.source_url
 
   firewall = windows_firewall_rule 'Octopus Deploy Tentacle' do
     action :create
@@ -83,6 +84,7 @@ action :configure do
     checksum checksum
     version version
     upgrades_enabled upgrades_enabled
+    source_url source_url
   end
 
   create_home_dir = directory home_path do
@@ -150,6 +152,7 @@ action :register do
   environment = new_resource.environment
   config_path = new_resource.config_path
   service_name = service_name(instance)
+  display_name = new_resource.display_name
 
   verify_server(server)
   verify_api_key(api_key)
@@ -160,7 +163,7 @@ action :register do
     action :run
     cwd tentacle_install_location
     code <<-EOH
-      .\\Tentacle.exe register-with --instance "#{instance}" --server "#{server}" --name "#{node.name}" --apiKey "#{api_key}" #{register_comm_config(polling, port)} --environment "#{environment}" #{option_list('role', roles)} --console
+      .\\Tentacle.exe register-with --instance "#{instance}" --server "#{server}" --name "#{display_name}" --apiKey "#{api_key}" #{register_comm_config(polling, port)} --environment "#{environment}" #{option_list('role', roles)} --console
       #{catch_powershell_error('Registering Tentacle')}
     EOH
     # This is sort of a hack, you need to specify the config_path on register if it is not default
@@ -213,7 +216,7 @@ action :uninstall do
     config_path config_path
   end
 
-  uninstall_package = windows_package display_name do
+  uninstall_package = package display_name do
     action :remove
     source 'nothing'
   end
