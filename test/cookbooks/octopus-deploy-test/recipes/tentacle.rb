@@ -31,19 +31,19 @@ cookbook_file 'C:\Octopus\tentacle_cert.txt' do
 end
 
 # Just make sure its not installed already
-octopus_deploy_tentacle 'Tentacle' do
+octopus_deploy_tattsgroup_tentacle 'Tentacle' do
   action :uninstall
   version tentacle['version']
 end
 
 # Install it here
-octopus_deploy_tentacle 'Tentacle' do
+octopus_deploy_tattsgroup_tentacle 'Tentacle' do
   action :install
   version tentacle['version']
   checksum tentacle['checksum']
 end
 
-octopus_deploy_tentacle 'Tentacle' do
+octopus_deploy_tattsgroup_tentacle 'Tentacle' do
   action :configure
   version tentacle['version']
   checksum tentacle['checksum']

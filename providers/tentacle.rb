@@ -79,7 +79,7 @@ action :configure do
     not_if { polling }
   end
 
-  install = octopus_deploy_tentacle name do
+  install = octopus_deploy_tattsgroup_tentacle name do
     action :install
     checksum checksum
     version version

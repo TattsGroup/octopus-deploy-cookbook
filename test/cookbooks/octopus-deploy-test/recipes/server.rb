@@ -19,12 +19,12 @@
 #
 
 # Just make sure its not installed already
-octopus_deploy_server 'OctopusServer' do
+octopus_deploy_tattsgroup_server 'OctopusServer' do
   action :remove
   version node['octopus-deploy-test']['server']['version']
 end
 
-octopus_deploy_server 'OctopusServer' do
+octopus_deploy_tattsgroup_server 'OctopusServer' do
   action :configure
   version node['octopus-deploy-test']['server']['version']
   checksum node['octopus-deploy-test']['server']['checksum']

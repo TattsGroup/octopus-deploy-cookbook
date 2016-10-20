@@ -6,11 +6,11 @@ description '(TattsGroup Fork) Handles installing Octopus Deploy Server &| Tenta
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 source_url 'https://github.com/TattsGroup/octopus-deploy-cookbook'
 issues_url 'https://github.com/TattsGroup/octopus-deploy-cookbook/issues'
-version '0.6.4'
+version '0.6.5'
 
 depends 'windows', '~> 1.38'
 depends 'windows_firewall', '~> 3.0.2'
 supports 'windows'
 
-provides 'octopus_deploy_server[OctopusServer]'
-provides 'octopus_deploy_tentacle[Tentacle]'
+provides 'octopus_deploy_tattsgroup_server[OctopusServer]'
+provides 'octopus_deploy_tattsgroup_tentacle[Tentacle]'
