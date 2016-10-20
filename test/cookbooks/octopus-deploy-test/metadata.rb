@@ -1,4 +1,4 @@
-name 'octopus-deploy-test'
+name 'octopus-deploy-tattsgroup-test'
 license 'Apache 2.0'
 description 'Used in test kitchen tests to set invoke the utility resources/recipes'
 long_description 'Used in test kitchen tests to set invoke the utility resources/recipes'
