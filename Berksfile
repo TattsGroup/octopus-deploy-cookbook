@@ -3,5 +3,5 @@ source 'https://supermarket.chef.io/'
 metadata
 
 group :test do
-  cookbook 'octopus-deploy-test', path: './test/cookbooks/octopus-deploy-test'
+  cookbook 'octopus-deploy-tattsgroup-test', path: './test/cookbooks/octopus-deploy-test'
 end
