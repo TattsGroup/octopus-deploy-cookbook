@@ -164,7 +164,7 @@ action :register do
     action :run
     cwd tentacle_install_location
     code <<-EOH
-      .\\Tentacle.exe register-with --instance "#{instance}" --server "#{server}" --name "#{display_name}" --apiKey "#{api_key}" #{register_comm_config(polling, port)} --environment "#{environment}" #{option_list('role', roles)} --console
+      .\\Tentacle.exe register-with --instance "#{instance}" --server "#{server}" --name "#{display_name}" --publicHostName "#{public_dns}" --apiKey "#{api_key}" #{register_comm_config(polling, port)} --environment "#{environment}" #{option_list('role', roles)} --console
       #{catch_powershell_error('Registering Tentacle')}
     EOH
     # This is sort of a hack, you need to specify the config_path on register if it is not default
