@@ -124,8 +124,11 @@ action :configure do
       #{catch_powershell_error('Reseting Trust')}
       .\\Tentacle.exe configure --instance="#{instance}" --home="#{home_path}" --app="#{app_path}" --port="#{port}" --noListen="#{powershell_boolean(polling)}" --console
       #{catch_powershell_error('Configuring instance')}
-      .\\Tentacle.exe configure --instance="#{instance}" --trust="#{trusted_cert}" --console
-      #{catch_powershell_error('Trusting Octopus Deploy Server')}
+      if (#{polling})
+      {
+        .\\Tentacle.exe configure --instance="#{instance}" --trust="#{trusted_cert}" --console
+        #{catch_powershell_error('Trusting Octopus Deploy Server')}
+      }
       .\\Tentacle.exe service --instance="#{instance}" --install --start --console
       #{catch_powershell_error('Installing / starting service')}
     EOH
