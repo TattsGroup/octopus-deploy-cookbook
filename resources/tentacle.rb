@@ -38,4 +38,5 @@ attribute :server, kind_of: String
 attribute :api_key, kind_of: String
 attribute :roles, kind_of: Array
 attribute :environment, kind_of: String, default: node.chef_environment
+attribute :public_dns, kind_of: String
 attribute :display_name, kind_of: String, default: node.name

@@ -152,6 +152,7 @@ action :register do
   environment = new_resource.environment
   config_path = new_resource.config_path
   service_name = service_name(instance)
+  public_dns = new_resource.public_dns
   display_name = new_resource.display_name
 
   verify_server(server)
